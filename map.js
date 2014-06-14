@@ -10,8 +10,8 @@ POImap.init = function () {
       osm_no = new L.TileLayer('http://{s}.www.toolserver.org/tiles/osm-no-labels/{z}/{x}/{y}.png', {attribution: [attr_osm, attr_overpass].join(', ')});
 
   map = new L.Map('map', {
-    center: new L.LatLng(47.2632776, 11.4010086),
-      zoom: 13,
+    center: new L.LatLng(50.0664,19.9186),
+      zoom: 14,
       layers: osm
   });
 
@@ -53,11 +53,11 @@ POImap.init = function () {
   return map;
 };
 
-POImap.loadAndParseOverpassJSON = function (overpassQueryUrl, callbackNode, callbackWay, callbackRelation) {
-  var url = overpassQueryUrl.replace(/(BBOX)/g, map.getBounds().toOverpassBBoxString());
-  $.getJSON(url, function (json) {
+POImap.loadAndParseOverpassJSON = function (query, callbackNode, callbackWay, callbackRelation) {
+  var query = query.replace(/{{bbox}}/g, map.getBounds().toOverpassBBoxString());
+  $.post('http://www.overpass-api.de/api/interpreter', {data: query}, function (json) {
     POImap.parseOverpassJSON(json, callbackNode, callbackWay, callbackRelation);
-  });
+  }, 'json');
 };
 
 POImap.parseOverpassJSON = function (overpassJSON, callbackNode, callbackWay, callbackRelation) {

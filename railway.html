@@ -106,7 +106,7 @@
       };
 
       POImap.loadAndParseOverpassJSON(
-          'http://www.overpass-api.de/api/interpreter?data=[out:json];(node[railway](BBOX));out;(way[railway](BBOX);node(w));out;',
+          '[out:json];(node[railway]({{bbox}}));out;(way[railway]({{bbox}});node(w));out;',
           handleNode, handleWay, null);
 
     }
